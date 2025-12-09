@@ -36,7 +36,7 @@
             />
 
             <FilesList
-                v-if="fileItems.length > 1"
+                v-if="fileItems.length > 0"
                 :fileItems="fileItems"
                 @remove-file="removeFile"
                 @clear-all="clearAllFiles"
@@ -132,10 +132,15 @@
                 @click="selectFolder"
                 class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-slate-200 text-slate-700 text-base font-medium hover:opacity-90 transition-opacity"
             >
-                 <span class="material-symbols-outlined">
+                <span class="material-symbols-outlined">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                        <path d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path
+                            d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
                     </svg>
                 </span>
                 <span>Select Output Folder</span>

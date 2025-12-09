@@ -3,8 +3,13 @@
         <div class="w-full p-4 flex">
             <RouterLink to="/" class="text-primary flex items-center gap-1 hover:underline">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round" />
+                    <path
+                        d="M15 18l-6-6 6-6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    />
                 </svg>
                 Back to Home
             </RouterLink>
@@ -20,11 +25,17 @@
                 </p>
             </div>
             <div v-if="fileItems.length === 0" class="flex flex-col p-4 w-full">
-                <DropZone title="Drag & drop your PDF here" subtitle="Supports PDF files. Max 10MB." :icon="Upload"
-                    display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="handleFilesUploaded" />
+                <DropZone
+                    title="Drag & drop your PDF here"
+                    subtitle="Supports PDF files. Max 10MB."
+                    :icon="Upload"
+                    display-name="PDFs (*.pdf)"
+                    pattern="*.pdf"
+                    @files-uploaded="handleFilesUploaded"
+                />
             </div>
 
-            <FilesList v-if="fileItems.length > 1" :fileItems="fileItems" @remove-file="removeFile" />
+            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="removeFile" />
 
             <div class="flex px-4 py-3 w-full max-w-lg">
                 <div class="flex flex-col gap-3 w-full">
@@ -34,51 +45,77 @@
                             <h4 class="text-base font-bold text-slate-900">Quality</h4>
                             <span class="text-sm font-medium text-slate-900 bg-slate-100 px-2 py-1 rounded-md">{{
                                 quality
-                                }}</span>
+                            }}</span>
                         </div>
-                        <input v-model="quality"
+                        <input
+                            v-model="quality"
                             class="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer [&amp;::-webkit-slider-thumb]:appearance-none [&amp;::-webkit-slider-thumb]:h-4 [&amp;::-webkit-slider-thumb]:w-4 [&amp;::-webkit-slider-thumb]:rounded-full [&amp;::-webkit-slider-thumb]:bg-primary"
-                            max="100" min="0" type="range" />
+                            max="100"
+                            min="0"
+                            type="range"
+                        />
                     </div>
                     <div class="grid grid-cols-3 gap-2 rounded-lg bg-slate-100 p-1">
-                        <button type="button" @click="handleQuanlityChange('low')" :class="[
-                            quanlitySelected === 'low'
-                                ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
-                                : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
-                        ]">
+                        <button
+                            type="button"
+                            @click="handleQuanlityChange('low')"
+                            :class="[
+                                quanlitySelected === 'low'
+                                    ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
+                                    : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
+                            ]"
+                        >
                             Low
                         </button>
-                        <button type="button" @click="handleQuanlityChange('medium')" :class="[
-                            quanlitySelected === 'medium'
-                                ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
-                                : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
-                        ]">
+                        <button
+                            type="button"
+                            @click="handleQuanlityChange('medium')"
+                            :class="[
+                                quanlitySelected === 'medium'
+                                    ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
+                                    : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
+                            ]"
+                        >
                             Medium
                         </button>
-                        <button type="button" @click="handleQuanlityChange('high')" :class="[
-                            quanlitySelected === 'high'
-                                ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
-                                : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
-                        ]">
+                        <button
+                            type="button"
+                            @click="handleQuanlityChange('high')"
+                            :class="[
+                                quanlitySelected === 'high'
+                                    ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
+                                    : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
+                            ]"
+                        >
                             High
                         </button>
                     </div>
                 </div>
             </div>
             <div class="flex px-4 py-3 justify-center w-full max-w-lg flex-col gap-3">
-                <button type="button" @click="selectFolder"
-                    class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-slate-200 text-slate-700 text-base font-medium hover:opacity-90 transition-opacity">
+                <button
+                    type="button"
+                    @click="selectFolder"
+                    class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-slate-200 text-slate-700 text-base font-medium hover:opacity-90 transition-opacity"
+                >
                     <span class="material-symbols-outlined">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
                             <path
                                 d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
                         </svg>
                     </span>
                     <span>Select Output Folder</span>
                 </button>
-                <button type="button" @click="processFiles"
-                    class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed">
+                <button
+                    type="button"
+                    @click="processFiles"
+                    class="flex w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl h-12 px-5 bg-primary text-black text-base font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-opacity disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+                >
                     <span class="truncate">Optimize PDF</span>
                 </button>
             </div>
