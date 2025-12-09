@@ -7,6 +7,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 
 	"github.com/disintegration/imaging"
@@ -94,8 +95,7 @@ func (a *App) OptimizeImages(quality int) error {
 }
 
 func (a *App) ConvertPDFToImages(name string) error {
-	var cmd *exec.Cmd
-	var file string = a.MergeFiles(a.Files)
+	file := a.MergeFiles(a.Files)
 
 	execPath, err := os.Executable()
 	if err != nil {
@@ -103,21 +103,25 @@ func (a *App) ConvertPDFToImages(name string) error {
 	}
 	execDir := filepath.Dir(execPath)
 
-	cmd = exec.Command(filepath.Join(execDir, "dist", "pdf_to_img"), file, a.Folder, name)
+	pdfTool := "pdf_to_img"
+	if runtime.GOOS == "windows" {
+		pdfTool += ".exe"
+	}
+
+	cmdPath := filepath.Join(execDir, pdfTool)
+	cmd := exec.Command(cmdPath, file, a.Folder, name)
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-
-		log.Printf("Error processing file %s: %v", file, err)
+		log.Printf("Error processing file %s: %v, output: %s", file, err, string(output))
 		return err
 	}
 
 	log.Printf("Output for file %s: %s", file, string(output))
-
 	return nil
 }
 
-func (a *App) ExtractPDFPages() error {
+func (a *App) ExtractPDFPages(name string) error {
 	for _, file := range a.Files {
 		if !esPDFValido(filepath.Base(file)) {
 			continue
