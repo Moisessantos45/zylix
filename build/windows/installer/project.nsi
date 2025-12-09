@@ -1,42 +1,13 @@
+!define ARG_WAILS_AMD64_BINARY "Zylix.exe"
+!define ARG_WAILS_ARM64_BINARY "Zylix.exe"
 Unicode true
-
-####
-## Please note: Template replacements don't work in this file. They are provided with default defines like
-## mentioned underneath.
-## If the keyword is not defined, "wails_tools.nsh" will populate them with the values from ProjectInfo.
-## If they are defined here, "wails_tools.nsh" will not touch them. This allows to use this project.nsi manually
-## from outside of Wails for debugging and development of the installer.
-##
-## For development first make a wails nsis build to populate the "wails_tools.nsh":
-## > wails build --target windows/amd64 --nsis
-## Then you can call makensis on this file with specifying the path to your binary:
-## For a AMD64 only installer:
-## > makensis -DARG_WAILS_AMD64_BINARY=..\..\bin\app.exe
-## For a ARM64 only installer:
-## > makensis -DARG_WAILS_ARM64_BINARY=..\..\bin\app.exe
-## For a installer with both architectures:
-## > makensis -DARG_WAILS_AMD64_BINARY=..\..\bin\app-amd64.exe -DARG_WAILS_ARM64_BINARY=..\..\bin\app-arm64.exe
-####
-## The following information is taken from the ProjectInfo file, but they can be overwritten here.
-####
-## !define INFO_PROJECTNAME    "MyProject" # Default "{{.Name}}"
-## !define INFO_COMPANYNAME    "MyCompany" # Default "{{.Info.CompanyName}}"
-## !define INFO_PRODUCTNAME    "MyProduct" # Default "{{.Info.ProductName}}"
-## !define INFO_PRODUCTVERSION "1.0.0"     # Default "{{.Info.ProductVersion}}"
-## !define INFO_COPYRIGHT      "Copyright" # Default "{{.Info.Copyright}}"
-###
-## !define PRODUCT_EXECUTABLE  "Application.exe"      # Default "${INFO_PROJECTNAME}.exe"
-## !define UNINST_KEY_NAME     "UninstKeyInRegistry"  # Default "${INFO_COMPANYNAME}${INFO_PRODUCTNAME}"
-####
-## !define REQUEST_EXECUTION_LEVEL "admin"            # Default "admin"  see also https://nsis.sourceforge.io/Docs/Chapter4.html
-####
-## Include the wails tools
-####
 !include "wails_tools.nsh"
+!include "UMUI.nsh"
+!include "nsDialogs.nsh"
 
 # The version information for this two must consist of 4 parts
-VIProductVersion "${INFO_PRODUCTVERSION}.0"
-VIFileVersion    "${INFO_PRODUCTVERSION}.0"
+VIProductVersion "2.1.0.0"
+VIFileVersion    "2.2.0.0"
 
 VIAddVersionKey "CompanyName"     "${INFO_COMPANYNAME}"
 VIAddVersionKey "FileDescription" "${INFO_PRODUCTNAME} Installer"
@@ -45,70 +16,94 @@ VIAddVersionKey "FileVersion"     "${INFO_PRODUCTVERSION}"
 VIAddVersionKey "LegalCopyright"  "${INFO_COPYRIGHT}"
 VIAddVersionKey "ProductName"     "${INFO_PRODUCTNAME}"
 
-# Enable HiDPI support. https://nsis.sourceforge.io/Reference/ManifestDPIAware
+# Enable HiDPI support
 ManifestDPIAware true
 
-!include "MUI.nsh"
+# Configuración de colores y tema
+!define UMUI_ICON "..\\icon.ico"          # Para el instalador
+!define UMUI_UNICON "..\\icon.ico"        # Para el desinstalador
+!define MUI_ICON "..\\icon.ico"           # También para compatibilidad MUI
 
-!define MUI_ICON "..\icon.ico"
-!define MUI_UNICON "..\icon.ico"
-# !define MUI_WELCOMEFINISHPAGE_BITMAP "resources\leftimage.bmp" #Include this to add a bitmap on the left side of the Welcome Page. Must be a size of 164x314
-!define MUI_FINISHPAGE_NOAUTOCLOSE # Wait on the INSTFILES page so the user can take a look into the details of the installation steps
-!define MUI_ABORTWARNING # This will warn the user if they exit from the installer.
+# Configuración de comportamiento
+!define MUI_ABORTWARNING
+!define MUI_FINISHPAGE_NOAUTOCLOSE
+!define UMUI_ABORTWARNING
+!define UMUI_FINISHPAGE_NOAUTOCLOSE
 
-!insertmacro MUI_PAGE_WELCOME # Welcome to the installer page.
-# !insertmacro MUI_PAGE_LICENSE "resources\eula.txt" # Adds a EULA page to the installer
-!insertmacro MUI_PAGE_DIRECTORY # In which folder install page.
-!insertmacro MUI_PAGE_INSTFILES # Installing page.
-!insertmacro MUI_PAGE_FINISH # Finished installation page.
+# Personalización de la página de bienvenida
+!define MUI_WELCOMEPAGE_TITLE "Bienvenido al instalador de Zylix"
+!define MUI_WELCOMEPAGE_TEXT "Gracias por instalar Zylix, tu suite de herramientas PDF local y offline.$\r$\n$\r$\n\
+Con Zylix tendrás las herramientas fundamentales de gestión de documentos: convertir imágenes a PDF, PDF a imágenes, optimizar archivos y mucho más, todo sin necesidad de internet.$\r$\n$\r$\n\
+Haz clic en 'Siguiente' para continuar."
 
-!insertmacro MUI_UNPAGE_INSTFILES # Uinstalling page
+# Personalización de la página final
+!define MUI_FINISHPAGE_TITLE "Instalación Completada"
+!define MUI_FINISHPAGE_TEXT "Zylix se ha instalado correctamente en tu sistema.$\r$\n$\r$\n\
+Desarrollado por Mmabitec para la gestión profesional de tu negocio."
+!define MUI_FINISHPAGE_RUN "$INSTDIR\\${PRODUCT_EXECUTABLE}"
+!define MUI_FINISHPAGE_RUN_TEXT "Ejecutar Zylix ahora"
 
-!insertmacro MUI_LANGUAGE "English" # Set the Language of the installer
+#### Páginas del instalador ####
+# Usa MUI_PAGE_* para páginas estándar (NO UMUI_PAGE_*)
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
 
-## The following two statements can be used to sign the installer and the uninstaller. The path to the binaries are provided in %1
-#!uninstfinalize 'signtool --file "%1"'
-#!finalize 'signtool --file "%1"'
+# Páginas del desinstalador
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+
+# Idioma
+!insertmacro MUI_LANGUAGE "Spanish"
 
 Name "${INFO_PRODUCTNAME}"
-OutFile "..\..\bin\${INFO_PROJECTNAME}-${ARCH}-installer.exe" # Name of the installer's file.
-InstallDir "$PROGRAMFILES64\${INFO_COMPANYNAME}\${INFO_PRODUCTNAME}" # Default installing folder ($PROGRAMFILES is Program Files folder).
-ShowInstDetails show # This will always show the installation details.
+OutFile "..\\..\\bin\\${INFO_PROJECTNAME}-${ARCH}-installer.exe"
+InstallDir "$PROGRAMFILES64\\${INFO_COMPANYNAME}\\${INFO_PRODUCTNAME}"
+ShowInstDetails show
 
 Function .onInit
    !insertmacro wails.checkArchitecture
 FunctionEnd
 
-Section
+Section "Instalación"
     !insertmacro wails.setShellContext
-
     !insertmacro wails.webview2runtime
 
     SetOutPath $INSTDIR
-
     !insertmacro wails.files
+    
+    # Incluir binarios adicionales de la carpeta dist
+    CreateDirectory "$INSTDIR\dist"
+    SetOutPath "$INSTDIR\dist"
+    File "..\..\bin\dist\pdf_to_img.exe"
+    
+    # Volver al directorio principal
+    SetOutPath $INSTDIR
 
-    CreateShortcut "$SMPROGRAMS\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${PRODUCT_EXECUTABLE}"
-    CreateShortCut "$DESKTOP\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\${PRODUCT_EXECUTABLE}"
+    # Crear accesos directos
+    CreateShortcut "$SMPROGRAMS\\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\\${PRODUCT_EXECUTABLE}"
+    CreateShortcut "$DESKTOP\\${INFO_PRODUCTNAME}.lnk" "$INSTDIR\\${PRODUCT_EXECUTABLE}"
 
     !insertmacro wails.associateFiles
     !insertmacro wails.associateCustomProtocols
-
     !insertmacro wails.writeUninstaller
 SectionEnd
 
-Section "uninstall"
+Section "Uninstall"
     !insertmacro wails.setShellContext
 
-    RMDir /r "$AppData\${PRODUCT_EXECUTABLE}" # Remove the WebView2 DataPath
+    # Eliminar datos de usuario
+    RMDir /r "$AppData\\${INFO_PRODUCTNAME}"
 
-    RMDir /r $INSTDIR
+    # Eliminar archivos del programa
+    RMDir /r "$INSTDIR"
 
-    Delete "$SMPROGRAMS\${INFO_PRODUCTNAME}.lnk"
-    Delete "$DESKTOP\${INFO_PRODUCTNAME}.lnk"
+    # Eliminar accesos directos
+    Delete "$SMPROGRAMS\\${INFO_PRODUCTNAME}.lnk"
+    Delete "$DESKTOP\\${INFO_PRODUCTNAME}.lnk"
 
     !insertmacro wails.unassociateFiles
     !insertmacro wails.unassociateCustomProtocols
-
     !insertmacro wails.deleteUninstaller
 SectionEnd
