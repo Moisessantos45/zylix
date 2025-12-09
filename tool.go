@@ -121,7 +121,7 @@ func (a *App) ConvertPDFToImages(name string) error {
 	return nil
 }
 
-func (a *App) ExtractPDFPages(name string) error {
+func (a *App) ExtractPDFPages() error {
 	for _, file := range a.Files {
 		if !esPDFValido(filepath.Base(file)) {
 			continue
