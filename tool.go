@@ -108,7 +108,7 @@ func (a *App) ConvertPDFToImages(name string) error {
 		pdfTool += ".exe"
 	}
 
-	cmdPath := filepath.Join(execDir, pdfTool)
+	cmdPath := filepath.Join(execDir, "dist", pdfTool)
 	cmd := exec.Command(cmdPath, file, a.Folder, name)
 
 	output, err := cmd.CombinedOutput()
