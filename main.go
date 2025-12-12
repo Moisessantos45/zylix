@@ -6,6 +6,7 @@ import (
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
 	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v2/pkg/options/windows"
 )
 
 //go:embed all:frontend/dist
@@ -19,8 +20,10 @@ func main() {
 	err := wails.Run(&options.App{
 		Title:     "Zylix",
 		Width:     1270,
+		MaxWidth:  1280,
 		Height:    650,
-		MinWidth:  1270,
+		MaxHeight: 800,
+		MinWidth:  1080,
 		MinHeight: 650,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
@@ -29,6 +32,10 @@ func main() {
 		OnStartup:        app.startup,
 		Bind: []any{
 			app,
+		},
+		Windows: &windows.Options{
+			IsZoomControlEnabled: false,
+			DisablePinchZoom:     true,
 		},
 	})
 
