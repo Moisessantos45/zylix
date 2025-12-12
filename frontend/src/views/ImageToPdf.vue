@@ -3,13 +3,8 @@
         <div class="w-full p-4 flex">
             <RouterLink to="/" class="text-primary flex items-center gap-1 hover:underline">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path
-                        d="M15 18l-6-6 6-6"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
                 Back to Home
             </RouterLink>
@@ -24,35 +19,28 @@
         </div>
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start w-full mx-auto">
             <div class="lg:col-span-2 space-y-6">
-                <DropZone
-                    v-if="fileItems.length === 0"
-                    title="Drag & drop images here"
-                    subtitle="Supports JPG, PNG, WebP, GIF. Max 10MB."
-                    :icon="Upload"
-                    display-name="Images (*.png;*.jpg)"
-                    pattern="*.png;*.jpg"
-                    @files-uploaded="handleFilesUploaded"
-                />
-                <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="removeFile" />
+                <DropZone v-if="fileItems.length === 0" title="Drag & drop images here"
+                    subtitle="Supports JPG, PNG, WebP, GIF. Max 10MB." :icon="Upload"
+                    display-name="Images (*.png;*.jpg)" pattern="*.png;*.jpg"
+                    @files-uploaded="useFile.handleFilesUploaded" />
+                <FilesList :expanded="true" v-if="fileItems.length > 0" :fileItems="fileItems"
+                    @remove-file="useFile.removeFile" />
             </div>
             <div class="lg:col-span-1 bg-white p-6 rounded-xl border border-gray-100 space-y-6">
                 <h3
-                    class="text-charcoal text-lg font-bold leading-tight tracking-[-0.015em] pb-2 border-b border-light-gray"
-                >
+                    class="text-charcoal text-lg font-bold leading-tight tracking-[-0.015em] pb-2 border-b border-light-gray">
                     Conversion Settings
                 </h3>
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-charcoal">Page Orientation</label>
                     <div class="flex flex-wrap gap-3">
                         <label
-                            class="flex-1 text-sm font-medium leading-normal flex items-center justify-center rounded-lg border border-gray-300 px-4 h-11 text-charcoal relative cursor-pointer"
-                        >
+                            class="flex-1 text-sm font-medium leading-normal flex items-center justify-center rounded-lg border border-gray-300 px-4 h-11 text-charcoal relative cursor-pointer">
                             <input checked class="invisible absolute" name="orientation" type="radio" />
                             Portrait
                         </label>
                         <label
-                            class="flex-1 text-sm font-medium leading-normal flex items-center justify-center rounded-lg border border-gray-300 px-4 h-11 text-charcoal relative cursor-pointer"
-                        >
+                            class="flex-1 text-sm font-medium leading-normal flex items-center justify-center rounded-lg border border-gray-300 px-4 h-11 text-charcoal relative cursor-pointer">
                             <input class="invisible absolute" name="orientation" type="radio" />
                             Landscape
                         </label>
@@ -60,85 +48,65 @@
                 </div>
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-charcoal" for="page-size">Page Size</label>
-                    <DropDown
-                        :list="[
-                            {
-                                name: 'A4',
-                                value: 'a4',
-                            },
-                            {
-                                name: 'Letter',
-                                value: 'letter',
-                            },
-                            {
-                                name: 'Legal',
-                                value: 'legal',
-                            },
-                            {
-                                name: 'A3',
-                                value: 'a3',
-                            },
-                        ]"
-                        :disabled="true"
-                    />
+                    <DropDown :list="[
+                        {
+                            name: 'A4',
+                            value: 'a4',
+                        },
+                        {
+                            name: 'Letter',
+                            value: 'letter',
+                        },
+                        {
+                            name: 'Legal',
+                            value: 'legal',
+                        },
+                        {
+                            name: 'A3',
+                            value: 'a3',
+                        },
+                    ]" :disabled="true" />
                 </div>
                 <div class="space-y-2">
                     <label class="text-sm font-medium text-charcoal" for="margins">Margins</label>
-                    <DropDown
-                        :list="[
-                            {
-                                name: 'None',
-                                value: 'none',
-                            },
-                            {
-                                value: 'small',
-                                name: 'Small',
-                            },
-                            {
-                                value: 'normal',
-                                name: 'Normal',
-                            },
-                            {
-                                value: 'large',
-                                name: 'Large',
-                            },
-                        ]"
-                        :disabled="true"
-                    />
+                    <DropDown :list="[
+                        {
+                            name: 'None',
+                            value: 'none',
+                        },
+                        {
+                            value: 'small',
+                            name: 'Small',
+                        },
+                        {
+                            value: 'normal',
+                            name: 'Normal',
+                        },
+                        {
+                            value: 'large',
+                            name: 'Large',
+                        },
+                    ]" :disabled="true" />
                 </div>
                 <div class="flex flex-col gap-2 w-full max-w-md">
                     <label class="text-sm font-medium text-charcoal" for="name">Output File Name</label>
-                    <input
-                        v-model="namePdf"
+                    <input v-model="namePdf"
                         class="w-full h-11 px-4 bg-white border border-gray-200 rounded-lg text-gray-900 placeholder:text-gray-400 focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-opacity"
-                        id="name"
-                        type="text"
-                        placeholder="merged-document"
-                    />
+                        id="name" type="text" placeholder="merged-document" />
                 </div>
-                <button
-                    type="button"
-                    @click="selectFolder"
-                    class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-slate-200 text-slate-700 text-base font-medium hover:opacity-90 transition-opacity"
-                >
+                <button type="button" @click="useFile.selectFolder"
+                    class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-slate-200 text-slate-700 text-base font-medium hover:opacity-90 transition-opacity">
                     <span class="material-symbols-outlined">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
                             <path
                                 d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                            />
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </span>
                     <span>Select Output Folder</span>
                 </button>
-                <button
-                    type="button"
-                    @click="processFiles"
-                    class="w-full flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-charcoal text-base font-bold tracking-[0.015em] hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-                >
+                <button type="button" @click="processFiles"
+                    class="w-full flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-12 px-4 bg-primary text-charcoal text-base font-bold tracking-[0.015em] hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">
                     <span class="truncate">Convert to PDF</span>
                 </button>
             </div>
@@ -147,36 +115,20 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import DropZone from "@/components/DropZone.vue";
 import FilesList from "@/components/FilesList.vue";
 import DropDown from "@/components/DropDown.vue";
 import Loading from "@/components/Loading.vue";
 import { Upload } from "@/components/icons";
-import type { FileItem } from "../types";
-import { ProcessFiles, GetFolder } from "../../wailsjs/go/main/App";
+import { ProcessFiles } from "../../wailsjs/go/main/App";
+import useFileStore from "@/stores/file";
 
-const fileItems = ref<Array<FileItem>>([]);
+const useFile = useFileStore();
+const { fileItems } = storeToRefs(useFile)
+
 const namePdf = ref<string>("");
 const loading = ref<boolean>(false);
-
-const handleFilesUploaded = (files: FileItem[]) => {
-    fileItems.value = [...files];
-    console.log("Files uploaded:", fileItems.value);
-};
-
-const removeFile = (id: string) => {
-    fileItems.value = fileItems.value.filter((file) => file.id !== id);
-    console.log("File removed. Remaining files:", fileItems.value);
-};
-
-const selectFolder = async () => {
-    try {
-        const folderPath = await GetFolder();
-        console.log("Selected folder:", folderPath);
-    } catch (error) {
-        console.error("Error selecting folder:", error);
-    }
-};
 
 const processFiles = async () => {
     try {

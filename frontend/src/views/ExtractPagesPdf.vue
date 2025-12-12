@@ -22,17 +22,18 @@
         </div>
         <div v-if="fileItems.length === 0" class="flex flex-col p-4">
             <DropZone title="Drag & drop your PDF here" subtitle="Supports PDF files. Max 10MB." :icon="Upload"
-                display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="handleFilesUploaded" />
+                display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="useFile.handleFilesUploaded" />
         </div>
 
-        <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="removeFile" />
+        <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" />
 
         <div class="p-4 flex flex-col gap-3">
-            <button type="button" @click="selectFolder"
+            <button type="button" @click="useFile.selectFolder"
                 class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-slate-200 text-slate-700 text-base font-medium hover:opacity-90 transition-opacity">
                 <span class="material-symbols-outlined">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                        <path d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"
+                        <path
+                            d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </span>
@@ -48,33 +49,18 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import DropZone from "@/components/DropZone.vue";
 import FilesList from "@/components/FilesList.vue";
 import Loading from "@/components/Loading.vue";
 import { Upload } from "@/components/icons";
-import type { FileItem } from "../types";
-import { ProcessFiles, GetFolder } from "../../wailsjs/go/main/App";
+import { ProcessFiles } from "../../wailsjs/go/main/App";
+import useFileStore from "@/stores/file";
 
-const fileItems = ref<Array<FileItem>>([]);
+const useFile = useFileStore();
+const { fileItems } = storeToRefs(useFile)
+
 const loading = ref<boolean>(false);
-
-const handleFilesUploaded = (files: FileItem[]) => {
-    fileItems.value = [...files];
-    console.log("Files uploaded:", fileItems.value);
-};
-
-const removeFile = (id: string) => {
-    fileItems.value = fileItems.value.filter((file) => file.id !== id);
-};
-
-const selectFolder = async () => {
-    try {
-        const folderPath = await GetFolder();
-        console.log("Selected folder:", folderPath);
-    } catch (error) {
-        console.error("Error selecting folder:", error);
-    }
-};
 
 const processFiles = async () => {
     try {

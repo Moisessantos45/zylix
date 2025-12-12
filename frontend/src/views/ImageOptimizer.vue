@@ -3,13 +3,8 @@
         <div class="w-full p-4 flex">
             <RouterLink to="/" class="text-primary flex items-center gap-1 hover:underline">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
-                    <path
-                        d="M15 18l-6-6 6-6"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    />
+                    <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
                 </svg>
                 Back to Home
             </RouterLink>
@@ -25,22 +20,12 @@
                 </p>
             </div>
 
-            <DropZone
-                v-if="fileItems.length === 0"
-                title="Drag & drop your image here"
-                subtitle="Supports JPG, PNG, WebP, GIF. Max 10MB."
-                :icon="Upload"
-                display-name="Images (*.png;*.jpg)"
-                pattern="*.png;*.jpg"
-                @files-uploaded="handleFilesUploaded"
-            />
+            <DropZone v-if="fileItems.length === 0" title="Drag & drop your image here"
+                subtitle="Supports JPG, PNG, WebP, GIF. Max 10MB." :icon="Upload" display-name="Images (*.png;*.jpg)"
+                pattern="*.png;*.jpg" @files-uploaded="useFile.handleFilesUploaded" />
 
-            <FilesList
-                v-if="fileItems.length > 0"
-                :fileItems="fileItems"
-                @remove-file="removeFile"
-                @clear-all="clearAllFiles"
-            />
+            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile"
+                @clear-all="clearAllFiles" />
 
             <div class="flex flex-col gap-6 rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
                 <h3 class="text-lg font-bold text-slate-900">Choose your optimization settings</h3>
@@ -48,37 +33,25 @@
                     <div class="flex flex-col gap-3">
                         <h4 class="text-base font-bold text-slate-900">Compression Level</h4>
                         <div class="grid grid-cols-3 gap-2 rounded-lg bg-slate-100 p-1">
-                            <button
-                                type="button"
-                                @click="handleQuanlityChange('low')"
-                                :class="[
-                                    quanlitySelected === 'low'
-                                        ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
-                                        : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
-                                ]"
-                            >
+                            <button type="button" @click="handleQuanlityChange('low')" :class="[
+                                quanlitySelected === 'low'
+                                    ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
+                                    : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
+                            ]">
                                 Low
                             </button>
-                            <button
-                                type="button"
-                                @click="handleQuanlityChange('medium')"
-                                :class="[
-                                    quanlitySelected === 'medium'
-                                        ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
-                                        : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
-                                ]"
-                            >
+                            <button type="button" @click="handleQuanlityChange('medium')" :class="[
+                                quanlitySelected === 'medium'
+                                    ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
+                                    : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
+                            ]">
                                 Medium
                             </button>
-                            <button
-                                type="button"
-                                @click="handleQuanlityChange('high')"
-                                :class="[
-                                    quanlitySelected === 'high'
-                                        ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
-                                        : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
-                                ]"
-                            >
+                            <button type="button" @click="handleQuanlityChange('high')" :class="[
+                                quanlitySelected === 'high'
+                                    ? 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-bold text-slate-900 bg-white'
+                                    : 'flex items-center justify-center rounded-md h-9 px-3 text-sm font-medium text-slate-600 hover:bg-white transition-opacity',
+                            ]">
                                 High
                             </button>
                         </div>
@@ -118,38 +91,24 @@
                             quality
                         }}</span>
                     </div>
-                    <input
-                        v-model="quality"
+                    <input v-model="quality"
                         class="w-full h-2 bg-slate-200 rounded-full appearance-none cursor-pointer [&amp;::-webkit-slider-thumb]:appearance-none [&amp;::-webkit-slider-thumb]:h-4 [&amp;::-webkit-slider-thumb]:w-4 [&amp;::-webkit-slider-thumb]:rounded-full [&amp;::-webkit-slider-thumb]:bg-primary"
-                        max="100"
-                        min="0"
-                        type="range"
-                    />
+                        max="100" min="0" type="range" />
                 </div>
             </div>
-            <button
-                type="button"
-                @click="selectFolder"
-                class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-slate-200 text-slate-700 text-base font-medium hover:opacity-90 transition-opacity"
-            >
+            <button type="button" @click="useFile.selectFolder"
+                class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-slate-200 text-slate-700 text-base font-medium hover:opacity-90 transition-opacity">
                 <span class="material-symbols-outlined">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
                         <path
                             d="M10 4H4C2.89543 4 2 4.89543 2 6V18C2 19.1046 2.89543 20 4 20H20C21.1046 20 22 19.1046 22 18V8C22 6.89543 21.1046 6 20 6H12L10 4Z"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                        />
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </span>
                 <span>Select Output Folder</span>
             </button>
-            <button
-                type="button"
-                @click="processFiles"
-                class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-primary text-slate-900 text-base font-bold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+            <button type="button" @click="processFiles"
+                class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-primary text-slate-900 text-base font-bold hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed">
                 <span class="material-symbols-outlined">bolt</span>
                 <span>Optimize Image</span>
             </button>
@@ -158,14 +117,17 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import DropZone from "@/components/DropZone.vue";
 import FilesList from "@/components/FilesList.vue";
 import Loading from "@/components/Loading.vue";
 import { Upload } from "@/components/icons";
-import type { FileItem } from "../types";
-import { ProcessFiles, GetFolder } from "../../wailsjs/go/main/App";
+import { ProcessFiles } from "../../wailsjs/go/main/App";
+import useFileStore from "@/stores/file";
 
-const fileItems = ref<Array<FileItem>>([]);
+const useFile = useFileStore();
+const { fileItems } = storeToRefs(useFile)
+
 const quality = ref<number>(80);
 const quanlitySelected = ref<string>("medium");
 const loading = ref<boolean>(false);
@@ -185,28 +147,9 @@ const handleQuanlityChange = (value: string) => {
     }
 };
 
-const handleFilesUploaded = (files: FileItem[]) => {
-    fileItems.value = [...files];
-    console.log("Files uploaded:", fileItems.value);
-};
-
-const removeFile = (id: string) => {
-    fileItems.value = fileItems.value.filter((file) => file.id !== id);
-    console.log("File removed. Remaining files:", fileItems.value);
-};
-
 const clearAllFiles = () => {
     fileItems.value = [];
     console.log("All files cleared.");
-};
-
-const selectFolder = async () => {
-    try {
-        const folderPath = await GetFolder();
-        console.log("Selected folder:", folderPath);
-    } catch (error) {
-        console.error("Error selecting folder:", error);
-    }
 };
 
 const processFiles = async () => {

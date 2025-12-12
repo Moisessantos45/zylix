@@ -21,8 +21,8 @@
         <div class="mt-8 flex flex-col gap-8 p-4">
             <DropZone v-if="fileItems.length === 0" title="Drag & drop your PDF files here"
                 subtitle="Supports PDF files. Max 10MB." :icon="Upload" display-name="PDFs (*.pdf)" pattern="*.pdf"
-                @files-uploaded="handleFilesUploaded" />
-            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="removeFile" />
+                @files-uploaded="useFile.handleFilesUploaded" />
+            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" />
             <div class="justify-center pt-4 flex flex-col gap-3 items-center">
                 <div class="flex flex-col gap-2 w-full max-w-md">
                     <label class="text-sm font-medium text-charcoal" for="name">Output File Name</label>
@@ -50,7 +50,7 @@
                         </span>
                         <span class="truncate">Merge PDFs</span>
                     </button>
-                    <button type="button" @click="selectFolder"
+                    <button type="button" @click="useFile.selectFolder"
                         class="flex flex-1 cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-5 bg-gray-200 text-charcoal text-base font-bold leading-normal tracking-[0.015em]">
                         <span class="material-symbols-outlined mr-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="w-6 h-6">
@@ -71,35 +71,19 @@
 </template>
 <script setup lang="ts">
 import { ref } from "vue";
+import { storeToRefs } from "pinia";
 import DropZone from "@/components/DropZone.vue";
 import FilesList from "@/components/FilesList.vue";
 import { Upload } from "@/components/icons";
 import Loading from "@/components/Loading.vue";
-import type { FileItem } from "../types";
-import { ProcessFiles, GetFolder } from "../../wailsjs/go/main/App";
+import { ProcessFiles } from "../../wailsjs/go/main/App";
+import useFileStore from "@/stores/file";
 
-const fileItems = ref<Array<FileItem>>([]);
+const useFile = useFileStore();
+const { fileItems } = storeToRefs(useFile)
+
 const namePdf = ref<string>("");
 const loading = ref<boolean>(false);
-
-const handleFilesUploaded = (files: FileItem[]) => {
-    fileItems.value = [...files];
-    console.log("Files uploaded:", fileItems.value);
-};
-
-const removeFile = (id: string) => {
-    fileItems.value = fileItems.value.filter((file) => file.id !== id);
-    console.log("File removed. Remaining files:", fileItems.value);
-};
-
-const selectFolder = async () => {
-    try {
-        const folderPath = await GetFolder();
-        console.log("Selected folder:", folderPath);
-    } catch (error) {
-        console.error("Error selecting folder:", error);
-    }
-};
 
 const processFiles = async () => {
     try {
