@@ -22,3 +22,5 @@ export function OptimizeImages(arg1:number):Promise<void>;
 export function OptimizePDF(arg1:string):Promise<void>;
 
 export function ProcessFiles(arg1:string,arg2:string,arg3:number):Promise<void>;
+
+export function RemoveFile(arg1:string):Promise<void>;

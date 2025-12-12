@@ -45,3 +45,7 @@ export function OptimizePDF(arg1) {
 export function ProcessFiles(arg1, arg2, arg3) {
   return window['go']['main']['App']['ProcessFiles'](arg1, arg2, arg3);
 }
+
+export function RemoveFile(arg1) {
+  return window['go']['main']['App']['RemoveFile'](arg1);
+}
