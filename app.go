@@ -143,3 +143,25 @@ func (a *App) MergeFiles(files []string) string {
 
 	return result
 }
+
+func (a *App) RemoveFile(file string) error {
+	var newListFiles []string
+	log.Println("Esta entrando a la funcion", file)
+
+	for _, item := range a.Files {
+		if item == file {
+			log.Println("el file es: ", item)
+			continue
+		}
+		newListFiles = append(newListFiles, item)
+	}
+
+	a.Files = newListFiles
+
+	return nil
+}
+
+func (a *App) ClearALl() {
+	a.Files = nil
+	a.Folder = ""
+}
