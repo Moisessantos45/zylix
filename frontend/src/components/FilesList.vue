@@ -8,8 +8,12 @@
                 class="flex w-24 items-center justify-center gap-2 rounded-lg h-10 px-4 bg-gray-100 text-gray-700 text-sm font-medium hover:bg-gray-200 transition-opacity">
                 <span>Clear All</span>
             </button>
-        </div>        
-        <div class="max-h-52 overflow-y-auto will-change-scroll">
+        </div>
+        <div :class="[expanded ?
+            'max-h-80'
+            : 'max-h-52',
+            'overflow-y-auto will-change-scroll'
+        ]">
             <div v-for="(file) in fileItems" :key="file.id"
                 class="flex items-center gap-4 mt-1 bg-white px-4 min-h-14 justify-between rounded-xl border border-gray-200">
                 <div class="flex items-center gap-4 overflow-hidden">
@@ -35,6 +39,7 @@ import type { FileItem } from '../types';
 
 defineProps<{
     fileItems: FileItem[],
+    expanded?: boolean
 }>()
 
 defineEmits<{
