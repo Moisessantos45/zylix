@@ -24,7 +24,7 @@
                     display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="useFile.handleFilesUploaded" />
             </div>
 
-            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" />
+            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" @clear-all="useFile.clearFiles" />
 
             <div class="flex px-4 py-3 w-full max-w-lg">
                 <div class="flex flex-col gap-3 w-full">

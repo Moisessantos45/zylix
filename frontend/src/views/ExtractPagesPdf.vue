@@ -22,10 +22,10 @@
         </div>
         <div v-if="fileItems.length === 0" class="flex flex-col p-4">
             <DropZone title="Drag & drop your PDF here" subtitle="Supports PDF files. Max 10MB." :icon="Upload"
-                display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="useFile.handleFilesUploaded" />
+                display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="useFile.handleFilesUploaded"  />
         </div>
 
-        <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" />
+        <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" @clear-all="useFile.clearFiles" />
 
         <div class="p-4 flex flex-col gap-3">
             <button type="button" @click="useFile.selectFolder"

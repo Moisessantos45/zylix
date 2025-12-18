@@ -24,7 +24,7 @@
                     display-name="Images (*.png;*.jpg)" pattern="*.png;*.jpg"
                     @files-uploaded="useFile.handleFilesUploaded" />
                 <FilesList :expanded="true" v-if="fileItems.length > 0" :fileItems="fileItems"
-                    @remove-file="useFile.removeFile" />
+                    @remove-file="useFile.removeFile" @clear-all="useFile.clearFiles" />
             </div>
             <div class="lg:col-span-1 bg-white p-6 rounded-xl border border-gray-100 space-y-6">
                 <h3

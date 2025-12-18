@@ -25,7 +25,7 @@
                 pattern="*.png;*.jpg" @files-uploaded="useFile.handleFilesUploaded" />
 
             <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile"
-                @clear-all="clearAllFiles" />
+               @clear-all="useFile.clearFiles" />
 
             <div class="flex flex-col gap-6 rounded-xl border border-slate-200 bg-white p-6 sm:p-8">
                 <h3 class="text-lg font-bold text-slate-900">Choose your optimization settings</h3>
@@ -145,11 +145,6 @@ const handleQuanlityChange = (value: string) => {
             quality.value = 100;
             break;
     }
-};
-
-const clearAllFiles = () => {
-    fileItems.value = [];
-    console.log("All files cleared.");
 };
 
 const processFiles = async () => {

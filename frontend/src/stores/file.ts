@@ -1,6 +1,6 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-import { GetFolder, RemoveFile } from "../../wailsjs/go/main/App";
+import { GetFolder, RemoveFile, ClearALl } from "../../wailsjs/go/main/App";
 import type { FileItem } from "../types";
 
 const useFileStore = defineStore("file", () => {
@@ -35,11 +35,21 @@ const useFileStore = defineStore("file", () => {
     }
   };
 
+  const clearFiles = async () => {
+    fileItems.value = [];
+    try {
+      await ClearALl();
+    } catch (error) {
+      console.error("Error clearing files:", error);
+    }
+  };
+
   return {
     fileItems,
     handleFilesUploaded,
     removeFile,
     selectFolder,
+    clearFiles,
   };
 });
 

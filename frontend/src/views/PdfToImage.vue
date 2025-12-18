@@ -25,7 +25,7 @@
                 display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="useFile.handleFilesUploaded" />
         </div>
 
-        <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" />
+        <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" @clear-all="useFile.clearFiles" />
 
         <div class="flex flex-col gap-4 p-4">
             <h3 class="text-gray-900 text-lg font-bold leading-tight tracking-[-0.015em] px-0 pb-2 pt-4">

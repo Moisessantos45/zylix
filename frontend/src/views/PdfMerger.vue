@@ -22,7 +22,7 @@
             <DropZone v-if="fileItems.length === 0" title="Drag & drop your PDF files here"
                 subtitle="Supports PDF files. Max 10MB." :icon="Upload" display-name="PDFs (*.pdf)" pattern="*.pdf"
                 @files-uploaded="useFile.handleFilesUploaded" />
-            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" />
+            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" @clear-all="useFile.clearFiles" />
             <div class="justify-center pt-4 flex flex-col gap-3 items-center">
                 <div class="flex flex-col gap-2 w-full max-w-md">
                     <label class="text-sm font-medium text-charcoal" for="name">Output File Name</label>
