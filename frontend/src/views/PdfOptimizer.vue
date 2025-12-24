@@ -1,7 +1,8 @@
 <template>
     <section class="px-4 py-5 items-center flex flex-col will-change-scroll">
         <div class="w-full p-4 flex">
-            <RouterLink to="/" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-200 text-slate-700 font-medium hover:bg-slate-300 transition-colors">
+            <RouterLink to="/"
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-200 text-slate-700 font-medium hover:bg-slate-300 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
                     <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" />
@@ -24,7 +25,8 @@
                     display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="useFile.handleFilesUploaded" />
             </div>
 
-            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile" @clear-all="useFile.clearFiles" />
+            <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile"
+                @clear-all="useFile.clearFiles" />
             <button v-if="fileItems.length > 0" type="button"
                 class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-primary/10 text-primary border-2 border-primary border-dashed text-base font-medium hover:bg-primary/20 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
@@ -105,7 +107,7 @@ import { ProcessFiles } from "../../wailsjs/go/main/App";
 import useFileStore from "@/stores/file";
 
 const useFile = useFileStore();
-const { fileItems } = storeToRefs(useFile)
+const { fileItems, isFirstUpload } = storeToRefs(useFile)
 
 const quality = ref<number>(80);
 const quanlitySelected = ref<string>("medium");
@@ -146,5 +148,6 @@ const processFiles = async () => {
 
 onBeforeUnmount(() => {
     fileItems.value = [];
+    isFirstUpload.value = true;
 });
 </script>

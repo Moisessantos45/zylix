@@ -4,15 +4,17 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"slices"
 	"strings"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 type App struct {
-	ctx    context.Context
-	Files  []string
-	Folder string
+	ctx        context.Context
+	Files      []string
+	Folder     string
+	IsFirstRun bool
 }
 
 func NewApp() *App {
@@ -42,13 +44,13 @@ func (a *App) GetFolder() (string, error) {
 	return folder, nil
 }
 
-func (a *App) GetFiles(displayName string, patter string) ([]string, error) {
+func (a *App) GetFiles(displayName string, pattern string, isFirst bool) ([]string, error) {
 	files, err := runtime.OpenMultipleFilesDialog(a.ctx, runtime.OpenDialogOptions{
 		Title: "Select a folder",
 		Filters: []runtime.FileFilter{
 			{
 				DisplayName: displayName,
-				Pattern:     patter,
+				Pattern:     pattern,
 			},
 		},
 	})
@@ -57,9 +59,21 @@ func (a *App) GetFiles(displayName string, patter string) ([]string, error) {
 		return nil, err
 	}
 
+	if len(files) == 0 {
+		return files, nil
+	}
+
 	log.Println("Selected files:", files)
 
-	a.Files = files
+	if isFirst {
+		a.Files = files
+	} else {
+		for _, newFile := range files {
+			if !slices.Contains(a.Files, newFile) {
+				a.Files = append(a.Files, newFile)
+			}
+		}
+	}
 
 	return files, err
 }
@@ -125,6 +139,8 @@ func (a *App) ProcessFiles(tool string, name string, quality int) error {
 		Title:   "Processing complete",
 		Message: "Files have been processed successfully.",
 	})
+
+	a.ClearALl()
 
 	return nil
 }

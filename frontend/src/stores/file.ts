@@ -5,9 +5,11 @@ import type { FileItem } from "../types";
 
 const useFileStore = defineStore("file", () => {
   const fileItems = ref<FileItem[]>([]);
+  const isFirstUpload = ref<boolean>(true);
 
   const handleFilesUploaded = (files: FileItem[]) => {
     fileItems.value = [...files];
+    isFirstUpload.value=false;
     console.log("Files uploaded:", fileItems.value);
   };
 
@@ -37,6 +39,7 @@ const useFileStore = defineStore("file", () => {
 
   const clearFiles = async () => {
     fileItems.value = [];
+    isFirstUpload.value=true
     try {
       await ClearALl();
     } catch (error) {
@@ -46,6 +49,7 @@ const useFileStore = defineStore("file", () => {
 
   return {
     fileItems,
+    isFirstUpload,
     handleFilesUploaded,
     removeFile,
     selectFolder,
