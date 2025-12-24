@@ -8,7 +8,7 @@
       <h2 class="text-base font-bold leading-tight text-text-dark">
         {{ tool.subtitle }}
       </h2>
-      <p class="text-sm font-normal leading-normal text-subtle-text-light">
+      <p class="text-sm font-normal leading-normal text-gray-900">
         {{ tool.description }}
       </p>
     </div>

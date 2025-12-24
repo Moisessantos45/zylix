@@ -49,7 +49,7 @@ const tools: Tool[] = [
     id: "extract-pages-pdf",
     title: "Extract Pages from PDF",
     subtitle: "Extract specific pages from your PDF",
-    description: "Easily extract specific pages from your PDF documents.",
+    description: "Extract each page from your PDF as a separate PDF file.",
     icon: "Scan",
     route: "ExtractPagesPdf",
   },
