@@ -9,7 +9,7 @@ export function ConvertPDFToImages(arg1:string):Promise<void>;
 
 export function ExtractPDFPages():Promise<void>;
 
-export function GetFiles(arg1:string,arg2:string):Promise<Array<string>>;
+export function GetFiles(arg1:string,arg2:string,arg3:boolean):Promise<Array<string>>;
 
 export function GetFolder():Promise<string>;
 

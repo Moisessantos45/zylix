@@ -18,8 +18,8 @@ export function ExtractPDFPages() {
   return window['go']['main']['App']['ExtractPDFPages']();
 }
 
-export function GetFiles(arg1, arg2) {
-  return window['go']['main']['App']['GetFiles'](arg1, arg2);
+export function GetFiles(arg1, arg2, arg3) {
+  return window['go']['main']['App']['GetFiles'](arg1, arg2, arg3);
 }
 
 export function GetFolder() {

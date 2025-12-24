@@ -17,8 +17,13 @@
 
 <script setup lang="ts">
 import { type Component } from 'vue';
+import { storeToRefs } from 'pinia';
 import type { FileItem } from '../types';
 import { GetFiles } from "../../wailsjs/go/main/App"
+import useFileStore from '@/stores/file';
+
+const useFile = useFileStore();
+const { isFirstUpload } = storeToRefs(useFile)
 
 const props = defineProps<{
   title: string
@@ -36,7 +41,7 @@ const emit = defineEmits<{
 
 const handleFileInput = async () => {
   try {
-    const files = await GetFiles(props.displayName, props.pattern);
+    const files = await GetFiles(props.displayName, props.pattern, isFirstUpload.value);
     console.log('Selected files:', files);
     processFiles(files);
   } catch (error) {
