@@ -22,12 +22,12 @@
             </div>
             <div v-if="fileItems.length === 0" class="flex flex-col p-4 w-full">
                 <DropZone title="Drag & drop your PDF here" subtitle="Supports PDF files. Max 10MB." :icon="Upload"
-                    display-name="PDFs (*.pdf)" pattern="*.pdf" @files-uploaded="useFile.handleFilesUploaded" />
+                    display-name="PDFs (*.pdf)" pattern="*.pdf" />
             </div>
 
             <FilesList v-if="fileItems.length > 0" :fileItems="fileItems" @remove-file="useFile.removeFile"
                 @clear-all="useFile.clearFiles" />
-            <button v-if="fileItems.length > 0" type="button"
+            <button v-if="fileItems.length > 0" type="button" @click="useFile.handleFileInput"
                 class="flex w-full items-center justify-center gap-2 rounded-xl h-12 px-6 bg-primary/10 text-primary border-2 border-primary border-dashed text-base font-medium hover:bg-primary/20 transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none">
                     <path d="M12 5v14m-7-7h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -97,7 +97,7 @@
     </section>
 </template>
 <script setup lang="ts">
-import { ref, onBeforeUnmount } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 import { storeToRefs } from "pinia";
 import DropZone from "@/components/DropZone.vue";
 import FilesList from "@/components/FilesList.vue";
@@ -107,7 +107,7 @@ import { ProcessFiles } from "../../wailsjs/go/main/App";
 import useFileStore from "@/stores/file";
 
 const useFile = useFileStore();
-const { fileItems, isFirstUpload } = storeToRefs(useFile)
+const { fileItems, currentTool } = storeToRefs(useFile)
 
 const quality = ref<number>(80);
 const quanlitySelected = ref<string>("medium");
@@ -136,7 +136,7 @@ const processFiles = async () => {
             return;
         }
         const result = await ProcessFiles("pdfCompressor", "", quality.value);
-        console.log("Files processed:", result);
+        console.info("Files processed:", result);
         fileItems.value = [];
         quality.value = 80;
     } catch (error) {
@@ -146,8 +146,11 @@ const processFiles = async () => {
     }
 };
 
+onMounted(() => {
+    currentTool.value = "pdf";
+})
+
 onBeforeUnmount(() => {
-    fileItems.value = [];
-    isFirstUpload.value = true;
+    useFile.clearAll();
 });
 </script>
