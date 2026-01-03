@@ -20,6 +20,7 @@
 
 | Versión | Plataforma | Descarga | Fecha |
 |---------|-----------|----------|-------|
+| v2.7 | Windows | [⬇️ Descargar](https://rmovevnbyamzdvslzqaq.supabase.co/storage/v1/object/public/apps/Programas/Zylix-v2_7.exe) | 2026-01-03 |
 | v2.5 | Windows | [⬇️ Descargar](https://rmovevnbyamzdvslzqaq.supabase.co/storage/v1/object/public/apps/Programas/Zylix-v1_5.exe) | 2025-12-19 |
 
 > **Nota**: Para otras plataformas o versiones anteriores, consulta la sección [Releases](https://github.com/Moisessantos45/zylix/releases).
