@@ -10,7 +10,7 @@ const useFileStore = defineStore("file", () => {
   const params = ref<{ [key: string]: any }>({
     "pdf": {
       displayName: "PDFs (*.pdf)",
-      pattern: ".pdf"
+      pattern: "*.pdf"
     },
     "image": {
       displayName: "Images (*.png;*.jpg)",

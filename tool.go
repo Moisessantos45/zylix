@@ -40,8 +40,8 @@ func (a *App) ConvertImagesToPDF(name string) error {
 		return fmt.Errorf("error convirtiendo a PDF: %v", err)
 	}
 
-	fmt.Printf("✅ PDF creado: %s\n", name)
-	fmt.Println("🎉 Conversión completada!")
+	fmt.Printf("PDF creado: %s\n", name)
+	fmt.Println("Conversión completada!")
 
 	return nil
 }
@@ -76,7 +76,7 @@ func (a *App) OptimizeImages(quality int) error {
 
 		srcImg, err := imaging.Open(imgPath)
 		if err != nil {
-			fmt.Printf("⚠️ Error %s: %v\n", filepath.Base(imgPath), err)
+			fmt.Printf("Error %s: %v\n", filepath.Base(imgPath), err)
 			continue
 		}
 
@@ -88,7 +88,7 @@ func (a *App) OptimizeImages(quality int) error {
 
 		origSize := fileInfo(imgPath)
 		newSize := fileInfo(outputPath)
-		fmt.Printf("✅ %s → %.1fMB (antes %.1fMB, -%.0f%%)\n",
+		fmt.Printf("%s → %.1fMB (antes %.1fMB, -%.0f%%)\n",
 			filepath.Base(imgPath), newSize, origSize, (1-newSize/origSize)*100)
 	}
 	return nil
@@ -133,11 +133,11 @@ func (a *App) ExtractPDFPages() error {
 
 		err := api.ExtractPagesFile(file, pathSubFolder, nil, nil)
 		if err != nil {
-			fmt.Printf("⚠️ Error %s: %v\n", filepath.Base(file), err)
+			fmt.Printf("Error %s: %v\n", filepath.Base(file), err)
 			continue
 		}
 
-		fmt.Printf("✅ %s → SVGs en %s/\n", filepath.Base(file), pathSubFolder)
+		fmt.Printf("%s → SVGs en %s/\n", filepath.Base(file), pathSubFolder)
 	}
 	return nil
 }
@@ -159,13 +159,13 @@ func (a *App) OptimizePDF(name string) error {
 
 		err := api.OptimizeFile(file, optimizedPath, nil)
 		if err != nil {
-			fmt.Printf("⚠️ Error %s: %v\n", filepath.Base(file), err)
+			fmt.Printf("Error %s: %v\n", filepath.Base(file), err)
 			continue
 		}
 
 		origSize := fileInfo(file)
 		newSize := fileInfo(optimizedPath)
-		fmt.Printf("✅ %s → %.1fMB (antes %.1fMB, -%.1f%%)\n",
+		fmt.Printf("%s → %.1fMB (antes %.1fMB, -%.1f%%)\n",
 			filepath.Base(file), newSize, origSize,
 			(1-newSize/origSize)*100)
 	}
@@ -191,6 +191,6 @@ func (a *App) MergePDFs(outputName string) error {
 		return fmt.Errorf("error uniendo: %v", err)
 	}
 
-	fmt.Printf("✅ %d PDFs → %s\n", len(validPDFs), outputPath)
+	fmt.Printf("%d PDFs → %s\n", len(validPDFs), outputPath)
 	return nil
 }
