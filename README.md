@@ -20,6 +20,7 @@
 
 | Versión | Plataforma | Descarga | Fecha |
 |---------|-----------|----------|-------|
+| v2.7.1 | Windows | [⬇️ Descargar](https://rmovevnbyamzdvslzqaq.supabase.co/storage/v1/object/public/apps/Programas/Zylix-v2_7_1.exe) | 2026-01-04 |
 | v2.7 | Windows | [⬇️ Descargar](https://rmovevnbyamzdvslzqaq.supabase.co/storage/v1/object/public/apps/Programas/Zylix-v2_7.exe) | 2026-01-03 |
 | v2.5 | Windows | [⬇️ Descargar](https://rmovevnbyamzdvslzqaq.supabase.co/storage/v1/object/public/apps/Programas/Zylix-v1_5.exe) | 2025-12-19 |
 
